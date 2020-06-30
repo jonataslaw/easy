@@ -1,3 +1,6 @@
-## [0.0.1] - TODO: Add release date.
+## [3.0.1] 
+* Update readme
 
-* TODO: Describe initial release.
+
+## [3.0.0] 
+* Refactor and made compatible with GetX

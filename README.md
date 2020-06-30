@@ -1,11 +1,11 @@
-# easy
+# EASY
 
 **The easiest state manager for Flutter.**
 
 ## Why Easy?
 
 Flutter already has a lot of state managers (a lot of them!), But I think it's incredible how there are still niches and more niches today.
-Recently someone questioned in my other lib (Get), if there was a middle ground between using Simple State Management, and reactive State Management, because both are extreme. One updates the screen through a hashset of callbacks, the most simplistic approach that can exist (that's why RAM is so economical), and the second is a highly powerful management, which uses streams under the hood and can solve literally any problem.
+Recently someone questioned in my other lib (GetX), if there was a middle ground between using Simple State Management, and reactive State Management, because both are extreme. One updates the screen through a hashset of callbacks, the most simplistic approach that can exist (that's why RAM is so economical), and the second is a highly powerful management, which uses streams under the hood and can solve literally any problem.
 Personally, I use GetX with reactive management in my projects, simply because I am demanding when it comes to state management. However, many people just don't like streams, and no matter how much you say they're awesome, you're not going to convince them.
 That's when I came up with the idea of ​​using callback HashSets (like the simple state manager) to do something reactive, and the result was this.
 Easy does not work with Streams, and does not work with ChangeNotifier.

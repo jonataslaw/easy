@@ -1,8 +1,7 @@
 name: easy
-description: A new Flutter package project.
-version: 0.0.1
-author:
-homepage:
+description: The easiest reactive, and simple state manager for Flutter compatible with GetX
+version: 3.0.1
+homepage: https://github.com/jonataslaw/easy
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -10,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  get: ">=3.0.0 <4.0.0"
 
 dev_dependencies:
   flutter_test:
