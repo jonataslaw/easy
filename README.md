@@ -1,6 +1,6 @@
 # easy
 
-The easiest state manager for Flutter.
+**The easiest state manager for Flutter.**
 
 ## Why Easy?
 
