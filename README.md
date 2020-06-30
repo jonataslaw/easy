@@ -107,10 +107,12 @@ This is your widget:
 
 To change it you just need to call update, and update the variables you want. Ridiculously easy.
 
+```dart
 user.update((user) {
       user.name = 'Pietro';
       user.age = 16;
     });
+```dart
 
 Done!
 
