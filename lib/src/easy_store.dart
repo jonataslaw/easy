@@ -1,29 +1,43 @@
-import 'package:get/get.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:get_instance/get_instance.dart';
 
-abstract class EasyStore extends DisposableInterface {}
+abstract class EasyStore extends GetLifeCycle {
+  bool _initialized = false;
+
+  /// Checks whether the controller has already been initialized.
+  bool get initialized => _initialized;
+
+  EasyStore() {
+    onStart.callback = _onStart;
+  }
+
+  // Internal callback that starts the cycle of this controller.
+  void _onStart() {
+    onInit();
+    _initialized = true;
+    SchedulerBinding.instance?.addPostFrameCallback((_) => onReady());
+  }
+}
 
 class Easy {
-  static void lazyPut<S>(FcBuilderFunc builder, {String tag}) {
+  static void lazyPut<S>(InstanceBuilderCallback builder, {String tag}) {
     return GetInstance().lazyPut<S>(builder, tag: tag);
   }
 
-  static Future<S> putAsync<S>(FcBuilderFuncAsync<S> builder,
+  static Future<S> putAsync<S>(AsyncInstanceBuilderCallback<S> builder,
           {String tag, bool permanent = false}) async =>
       GetInstance().putAsync<S>(builder, tag: tag, permanent: permanent);
 
-  static S find<S>({String tag, FcBuilderFunc<S> instance}) =>
-      GetInstance().find<S>(tag: tag, instance: instance);
+  static S find<S>({String tag, InstanceBuilderCallback<S> instance}) =>
+      GetInstance().find<S>(tag: tag);
 
   static S put<S>(S dependency,
           {String tag,
           bool permanent = false,
           bool overrideAbstract = false,
-          FcBuilderFunc<S> builder}) =>
-      GetInstance().put<S>(dependency,
-          tag: tag,
-          permanent: permanent,
-          overrideAbstract: overrideAbstract,
-          builder: builder);
+          InstanceBuilderCallback<S> builder}) =>
+      GetInstance()
+          .put<S>(dependency, tag: tag, permanent: permanent, builder: builder);
 
   static bool reset(
           {bool clearFactory = true, bool clearRouteBindings = true}) =>
@@ -33,6 +47,15 @@ class Easy {
   static Future<bool> delete<S>({String tag, String key}) async =>
       GetInstance().delete<S>(tag: tag, key: key);
 
-  static bool isRegistred<S>({String tag}) =>
-      GetInstance().isRegistred<S>(tag: tag);
+  static bool isRegistered<S>({String tag}) =>
+      GetInstance().isRegistered<S>(tag: tag);
+
+  static S putOrFind<S>(S Function() dep, {String tag}) {
+    if (GetInstance().isRegistered<S>(tag: tag) ||
+        GetInstance().isPrepared<S>(tag: tag)) {
+      return find<S>(tag: tag);
+    } else {
+      return put(dep(), tag: tag);
+    }
+  }
 }

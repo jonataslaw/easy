@@ -1,9 +1,10 @@
 library easy;
 
 export 'src/easy_store.dart';
-export 'src/easy_builder.dart';
-export 'src/easy_runner.dart';
-export 'src/reactive_list.dart';
-export 'src/reactive_map.dart';
-export 'src/iterable_interface.dart';
+export 'src/hashset_notifier.dart';
+export 'src/simple_builder.dart';
 export 'src/value.dart';
+export 'src/immutable_state.dart';
+export 'src/iterables/reactive_list.dart';
+export 'src/iterables/reactive_map.dart';
+export 'src/iterables/reactive_set.dart';

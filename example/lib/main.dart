@@ -1,20 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:easy/easy.dart';
 
 void main() => runApp(App());
-
-class UserStore extends EasyStore {
-  final user = User().reactive;
-  final counter = 0.reactive;
-  final counter2 = 0.reactive;
-
-  void updateUser(String name, int age) {
-    user.update((user) {
-      user.name = name;
-      user.age = age;
-    });
-  }
-}
 
 class App extends StatelessWidget {
   @override
@@ -26,10 +15,21 @@ class App extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
-  HomePage({Key key}) : super(key: key);
+class Counter {
+  final int value;
+  Counter(this.value);
+}
 
-  final UserStore state = Easy.put(UserStore());
+class Foo extends GetState<Counter> {
+  Foo() : super(Counter(0));
+
+  void increment() {
+    update(Counter(state.value + 1));
+  }
+}
+
+class HomePage extends StatelessWidget {
+  final Foo state = Foo();
 
   @override
   Widget build(BuildContext context) {
@@ -41,26 +41,16 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            EasyBuilder((_) {
-              print("count1 rebuild");
-              return Text('${_(state.counter)}');
-            }),
-            EasyBuilder(($) => Text('${$(state.counter2)}')),
-            EasyBuilder(($) {
-              var user = $(state.user);
-              return Text('Name: ${user.name} Age: ${user.age}');
-            }),
-            // BUTTONS
+            Store(
+                state: () => state,
+                builder: (_) {
+                  print("count1 rebuild");
+                  return Text('${_.value}');
+                }),
             RaisedButton(
-              onPressed: () => state.updateUser('Jonny Borges', 21),
-              child: Text('Update name and age'),
-            ),
-            RaisedButton(
-              onPressed: () => state.counter(state.counter() + 1),
-              child: Text('Increment one'),
-            ),
-            RaisedButton(
-              onPressed: () => state.counter2.value++,
+              onPressed: () {
+                state.increment();
+              },
               child: Text('Increment two'),
             )
           ],
@@ -68,6 +58,23 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+class UserStore extends EasyStore {
+  final user = User().reactive;
+  final counter = 0.reactive;
+  final counter2 = 0.reactive;
+
+  final list = [0, 4].reactive;
+
+  void updateUser(String name, int age) {
+    user.update((user) {
+      user.name = name;
+      user.age = age;
+    });
+  }
+
+  void listInc() => list.add(Random().nextInt(90));
 }
 
 class User {

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:easy/src/simple_builder.dart';
 import 'package:flutter/foundation.dart';
 
 class HashSetNotifier implements Listenable {
@@ -24,6 +25,11 @@ class HashSetNotifier implements Listenable {
     return true;
   }
 
+  @protected
+  void notifyChildrens() {
+    TaskManager.instance.notify(_listeners);
+  }
+
   bool get hasListeners {
     assert(_debugAssertNotDisposed());
     return _listeners.isNotEmpty;
@@ -47,3 +53,4 @@ class HashSetNotifier implements Listenable {
     _listeners = null;
   }
 }
+

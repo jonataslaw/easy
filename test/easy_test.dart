@@ -10,14 +10,15 @@ void main() {
   Value easyValue = Value(0);
   ValueNotifier value = ValueNotifier(0);
 
-  value.addListener(() {
-    if (last == value.value) {
-      print("last item of value");
-    }
-  });
   easyValue.addListener(() {
     if (last == easyValue.value) {
       print("last item of easyValue");
+    }
+  });
+
+  value.addListener(() {
+    if (last == value.value) {
+      print("last item of value");
     }
   });
 

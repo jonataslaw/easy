@@ -1,12 +1,19 @@
 import 'package:flutter/foundation.dart';
-import 'package:easy/src/hashset_notifier.dart';
+import 'hashset_notifier.dart';
 
 class Value<T> extends HashSetNotifier implements ValueListenable<T> {
   Value(this._value);
 
+  T get value {
+    notifyChildrens();
+    return _value;
+  }
+
   @override
-  T get value => _value;
+  String toString() => value.toString();
+
   T _value;
+
   set value(T newValue) {
     if (_value == newValue) return;
     _value = newValue;
@@ -24,11 +31,10 @@ class Value<T> extends HashSetNotifier implements ValueListenable<T> {
     fn(value);
     updater();
   }
-
-  @override
-  String toString() => '${describeIdentity(this)}($value)';
 }
 
 extension ReactiveT<T> on T {
   Value<T> get reactive => Value<T>(this);
 }
+
+typedef Condition = bool Function();
